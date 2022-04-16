@@ -1,4 +1,5 @@
 # import pygame package
+from turtle import speed
 import pygame
 import sys
 import random
@@ -22,7 +23,7 @@ GREEN = (0, 255, 0)
 # building the fruit class
 class Fruit(pygame.sprite.Sprite):
 # build the contructor
-    def __init__(self, width, height, color):
+    def __init__(self, width, height, color, speed):
         super().__init__()
         # create the sprite and fill with color (update with images)
         self.image = pygame.Surface([width, height])
@@ -31,6 +32,10 @@ class Fruit(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(30, 820)
         self.rect.y = random.randrange(30, 300)
+        self.speed = speed
+
+    def update(self):
+        self.rect.y = self.rect.y + self.speed
 
 
 # create a list to hold the fruit sprites
@@ -41,7 +46,7 @@ spriteList = pygame.sprite.Group()
 # create the fruits
 numberFruits = 10
 for i in range(0, numberFruits):
-    blawesomeFruit = Fruit(10, 10, GREEN)
+    blawesomeFruit = Fruit(10, 10, GREEN, 2)
     fruitList.add(blawesomeFruit)
     spriteList.add(blawesomeFruit)
 fruit_y = 10
@@ -60,12 +65,13 @@ while running:
     # Check for event if user has pushed
     # any event in queue
     for event in pygame.event.get():
-
         # if event is of type quit then
         # set running bool to false
         if event.type == pygame.QUIT:
             running = False
 
+    # game logic can go here
+    spriteList.update()
     # fill the background of the game
     display_surface.fill ((0, 0, 0))
 
