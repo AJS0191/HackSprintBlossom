@@ -53,8 +53,8 @@ class Blossom(pygame.sprite.Sprite):
         self.width = fruit.width
         self.height = fruit.height
         self.image = pygame.Surface([self.width, self.height])
-        self.image.fill(self.color)
-        self.speed = random.randrange(1, 4)
+        self.image.fill(fruit.color)
+        self.speed = random.randrange(1, 3)
         self.updateTime = random.randrange(0, 30000)
         self.rect = self.image.get_rect()
         self.rect.x = fruit.rect.x
@@ -63,7 +63,10 @@ class Blossom(pygame.sprite.Sprite):
     def update(self):
         # only drops fruit at random intervals
         if currentTime > self.updateTime:
+            self.image = pygame.Surface([20, 20])
+            pygame.transform.scale(carrot, (20, 20), dest_surface=self.image)
             self.rect.y = self.rect.y + self.speed
+
 
 # create a list to hold the fruit sprites
 fruitList = pygame.sprite.Group()
