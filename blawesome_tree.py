@@ -55,12 +55,15 @@ class Blossom(pygame.sprite.Sprite):
         self.image = pygame.Surface([self.width, self.height])
         self.image.fill(self.color)
         self.speed = random.randrange(1, 4)
+        self.updateTime = random.randrange(0, 30000)
         self.rect = self.image.get_rect()
         self.rect.x = fruit.rect.x
         self.rect.y = fruit.rect.y
 
     def update(self):
-        self.rect.y = self.rect.y + self.speed
+        # only drops fruit at random intervals
+        if currentTime > self.updateTime:
+            self.rect.y = self.rect.y + self.speed
 
 # create a list to hold the fruit sprites
 fruitList = pygame.sprite.Group()
@@ -71,13 +74,15 @@ spriteList = pygame.sprite.Group()
 
 # create the fruits and the blossoms
 numberFruits = 10
+numberBlossoms = 3
 for i in range(0, numberFruits):
     blawesomeFruit = Fruit(10, 10, GREEN, 2)
-    blawesomeBlossom = Blossom(blawesomeFruit)
     fruitList.add(blawesomeFruit)
-    blossomList.add(blawesomeBlossom)
     spriteList.add(blawesomeFruit)
-    spriteList.add(blawesomeBlossom)
+    for x in range(0, numberBlossoms):
+        blawesomeBlossom = Blossom(blawesomeFruit)
+        blossomList.add(blawesomeBlossom)
+        spriteList.add(blawesomeBlossom)
 # fruit_y = 10
 # fruit_x = 10
 #displaying tree to background
