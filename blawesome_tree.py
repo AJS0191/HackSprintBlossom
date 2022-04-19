@@ -3,6 +3,8 @@ from turtle import speed
 import pygame
 import sys
 import random
+from models.Blossom import Blossom
+from models.Fruit import Fruit
 
 # initializing imported module
 pygame.init()
@@ -16,7 +18,8 @@ currentTime = 0
 # screen = pygame.display.set_mode((850, 600))
 # Making background image
 # image = pygame.image.load('tree.png')
-carrot = pygame.image.load('carrot.png')
+# carrot = pygame.image.load('carrot.png')
+# fruitBlossom = pygame.image.load('fruitblossom.png')
 
 # color constants 
 WHITE = (255, 255, 255)
@@ -25,47 +28,21 @@ RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
 # building the fruit class
-class Fruit(pygame.sprite.Sprite):
+#  class Fruit(pygame.sprite.Sprite):
 # build the contructor
-    def __init__(self, width, height, color, speed):
-        super().__init__()
-        # create the sprite and fill with color (update with images)
-        self.image = pygame.Surface([width, height])
-        self.image.fill(color)
-        self.color = color
-        self.width = width
-        self.height = height
-        # set start position of fruit with random
-        self.rect = self.image.get_rect()
-        self.rect.x = random.randrange(30, 820)
-        self.rect.y = random.randrange(30, 300)
-        self.speed = speed
+
+    
 
     # def update(self):
         # self.rect.y = self.rect.y + self.speed
 
 
 # adding the blossom class for falling objects from fruit ((i think i named this backwards))
-class Blossom(pygame.sprite.Sprite):
-    def __init__(self, fruit):
-        super().__init__()
-        self.color = WHITE  # change to fruit.color
-        self.width = fruit.width
-        self.height = fruit.height
-        self.image = pygame.Surface([self.width, self.height])
-        self.image.fill(fruit.color)
-        self.speed = random.randrange(1, 3)
-        self.updateTime = random.randrange(0, 30000)
-        self.rect = self.image.get_rect()
-        self.rect.x = fruit.rect.x
-        self.rect.y = fruit.rect.y
 
-    def update(self):
-        # only drops fruit at random intervals
-        if currentTime > self.updateTime:
-            self.image = pygame.Surface([20, 20])
-            pygame.transform.scale(carrot, (20, 20), dest_surface=self.image)
-            self.rect.y = self.rect.y + self.speed
+# Create the in-game scoreboard font
+score = '0'
+scoreFont = pygame.font.SysFont('Arial', 20)
+scoreBoard = scoreFont.render(score, True, (255, 255, 255))
 
 
 # create a list to hold the fruit sprites
@@ -79,7 +56,7 @@ spriteList = pygame.sprite.Group()
 numberFruits = 10
 numberBlossoms = 3
 for i in range(0, numberFruits):
-    blawesomeFruit = Fruit(10, 10, GREEN, 2)
+    blawesomeFruit = Fruit(10, 10, GREEN)
     fruitList.add(blawesomeFruit)
     spriteList.add(blawesomeFruit)
     for x in range(0, numberBlossoms):
@@ -115,7 +92,7 @@ while running:
     display_surface.fill ((0, 0, 0))
 
     # draw to the screen
-
+    display_surface.blit(scoreBoard, (15, 15))
     spriteList.draw(display_surface)
     # 
     # pygame.draw.rect(display_surface, color, (fruit_x + 70, fruit_y + 10, 20, 20))
